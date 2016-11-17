@@ -10,6 +10,8 @@ class DatabaseCleanupJob {
 
 	long timeout = 10 * 60 * 1000 // every 10 minutes
 
+	def concurrent = false
+
 	void execute() {
 
 		def conf = grailsApplication.config.grails.plugin.databasesession
