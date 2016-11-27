@@ -8,3 +8,5 @@ web-app
 /docs
 .idea/
 *.iml
+*.ipr
+.idea/
