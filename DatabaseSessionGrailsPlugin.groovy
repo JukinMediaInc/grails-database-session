@@ -5,7 +5,7 @@ import grails.util.Metadata
 import org.springframework.web.filter.DelegatingFilterProxy
 
 class DatabaseSessionGrailsPlugin {
-	String version = '1.2.1-jk6'
+	String version = '1.2.1-jk7'
 	String grailsVersion = '1.3.3 > *'
 	String title = 'Database Session Plugin'
 	String author = 'Burt Beckwith'
@@ -18,8 +18,16 @@ class DatabaseSessionGrailsPlugin {
 	def scm = [url: 'https://github.com/burtbeckwith/grails-database-session']
 
 	def getWebXmlFilterOrder() {
-		// make sure the filter is first
-		[sessionProxyFilter: -100]
+		// make sure the filter is first but not before charEncodingFilter
+		def filterMap = [:]
+		try {
+			def classLoader = new GroovyClassLoader(getClass().getClassLoader())
+			def FilterManager = classLoader.loadClass('grails.plugin.webxml.FilterManager')
+			filterMap = [sessionProxyFilter: FilterManager.CHAR_ENCODING_POSITION + 1]
+		} catch (ClassNotFoundException e) {
+			log.error "Could not determine desired sessionProxyFilter position.", e
+		}
+		return filterMap
 	}
 
 	def doWithWebDescriptor = { xml ->
