@@ -35,6 +35,8 @@ public class SessionProxyFilter extends OncePerRequestFilter {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
+	Boolean forceSecureCookie;
+
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request,
 			final HttpServletResponse response, final FilterChain chain)
@@ -160,7 +162,8 @@ public class SessionProxyFilter extends OncePerRequestFilter {
 		Cookie cookie = new Cookie(COOKIE_NAME, sessionId);
 		cookie.setDomain(request.getServerName()); // TODO needs config option
 		cookie.setPath(COOKIE_PATH);
-		cookie.setSecure(request.isSecure());
+		Boolean setSecureCookie = request.isSecure() || forceSecureCookie;
+		cookie.setSecure(setSecureCookie);
 		return cookie;
 	}
 
