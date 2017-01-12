@@ -5,7 +5,7 @@ import grails.util.Metadata
 import org.springframework.web.filter.DelegatingFilterProxy
 
 class DatabaseSessionGrailsPlugin {
-	String version = '1.2.1-jk9'
+	String version = '1.2.1-jk8'
 	String grailsVersion = '1.3.3 > *'
 	String title = 'Database Session Plugin'
 	String author = 'Burt Beckwith'
@@ -70,7 +70,6 @@ class DatabaseSessionGrailsPlugin {
 
 		sessionProxyFilter(SessionProxyFilter) {
 			persister = ref('gormPersisterService')
-			forceSecureCookie = application.config.grails.plugin.databasesession.forceSecureCookie
 		}
 	}
 
